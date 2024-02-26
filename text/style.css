@@ -1,0 +1,11 @@
+h1 {
+    /* グラデーション背景 */
+    background: linear-gradient(to right, #FFD700, #FF6347, #4B0082);
+    /* テキストの影 */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    /* テキストの色を透明にして、グラデーションに影響を与えない */
+    color: transparent;
+    /* 背景をグラデーションで作ったので、背景を透明にする */
+    -webkit-background-clip: text;
+    background-clip: text;
+}
