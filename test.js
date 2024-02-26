@@ -38,7 +38,7 @@ function searchMonster(query) {
 
 // ルートエンドポイント
 app.get('/', (req, res) => {
-    res.send('text1');
+    res.render('text1');
 });
 
 // 検索エンドポイント
@@ -48,7 +48,7 @@ app.get('/search', (req, res) => {
         res.status(400).json({ error: '何やってんだ小松！' });
     } else {
         const results = searchMonster(query);
-        res.render('text1',{results});
+        res.render('searchResult',{results});
     }
 });
 
