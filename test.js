@@ -6,8 +6,8 @@ const app = express();
 const PORT = 3000;
 
 // Expressアプリでviewsディレクトリを設定する
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'html');
+app.set('views', path.join(__dirname, 'text'));
+app.set('view engine', 'ejs');
 
 // ミドルウェアの設定
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -38,7 +38,7 @@ function searchMonster(query) {
 
 // ルートエンドポイント
 app.get('/', (req, res) => {
-    res.send('よく来たな！小松！！');
+    res.send('text1');
 });
 
 // 検索エンドポイント
@@ -48,7 +48,7 @@ app.get('/search', (req, res) => {
         res.status(400).json({ error: '何やってんだ小松！' });
     } else {
         const results = searchMonster(query);
-        res.render('text.html',{results});
+        res.render('text1',{results});
     }
 });
 
