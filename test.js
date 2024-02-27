@@ -38,7 +38,7 @@ function searchMonster(query) {
 
 // ルートエンドポイント
 app.get('/', (req, res) => {
-    res.send('text1');
+    res.render('text1');
 });
 
 // 検索エンドポイント
