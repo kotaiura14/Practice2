@@ -48,7 +48,7 @@ app.get('/search', (req, res) => {
         res.status(400).json({ error: '何やってんだ小松！' });
     } else {
         const results = searchMonster(query);
-        res.render('searchResult',{results});
+        res.render('text1',{results});
     }
 });
 

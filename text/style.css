@@ -1,11 +1,37 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+}
+
 h1 {
-    /* グラデーション背景 */
-    background: linear-gradient(to right, #FFD700, #FF6347, #4B0082);
-    /* テキストの影 */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    /* テキストの色を透明にして、グラデーションに影響を与えない */
-    color: transparent;
-    /* 背景をグラデーションで作ったので、背景を透明にする */
-    -webkit-background-clip: text;
-    background-clip: text;
+    color: #007bff; /* 鮮やかな青色 */
+}
+
+h2 {
+    color: #28a745; /* 鮮やかな緑色 */
+}
+
+label {
+    color: #6c757d; /* グレー */
+}
+
+button {
+    background-color: #007bff; /* 鮮やかな青色 */
+    color: #fff; /* 白色 */
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3; /* より濃い青色 */
+}
+
+ul {
+    list-style-type: none;
+}
+
+p {
+    color: #dc3545; /* 赤色 */
 }
