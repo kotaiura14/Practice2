@@ -9,6 +9,10 @@ const PORT = 3000;
 app.set('views', path.join(__dirname, 'text'));
 app.set('view engine', 'ejs');
 
+app.use(express.static('text'));
+
+app.use(express.static(path.join(__dirname, 'text')));
+
 // CSS ファイルの MIME タイプを設定
 app.use('/style.css', (req, res, next) => {
     res.setHeader('Content-Type', 'text/css');
@@ -18,11 +22,6 @@ app.use('/style.css', (req, res, next) => {
 // ミドルウェアの設定
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-app.use(express.static('text'));
-// 静的ファイルを提供するディレクトリを public に設定
-app.use(express.static(path.join(__dirname, 'text')));
-
 
 // モンスターリスト
 const monsterList = [
