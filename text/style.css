@@ -1,37 +1,70 @@
+/* Body全体のスタイル */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f0f0f0;
+    background-color: #f5f5f5; /* 背景色を明るい灰色に */
     color: #333;
+    margin: 0;
+    padding: 0;
+    font-size: 16px; /* フォントサイズを16pxに設定 */
 }
 
-h1 {
-    color: #007bff; /* 鮮やかな青色 */
+/* ヘッダーのスタイル */
+header {
+    background-color: #ff6f61; /* ヘッダーの背景色をオレンジに */
+    color: #fff; /* ヘッダーテキストの色を白色に */
+    padding: 20px 0; /* 上下の余白を追加 */
+    text-align: center; /* テキストを中央揃えに */
 }
 
-h2 {
-    color: #28a745; /* 鮮やかな緑色 */
+/* メインコンテンツのスタイル */
+main {
+    padding: 20px; /* メインコンテンツの余白を追加 */
 }
 
-label {
-    color: #6c757d; /* グレー */
+/* フォームのスタイル */
+form {
+    margin-bottom: 20px; /* フォームの下に余白を追加 */
 }
 
-button {
-    background-color: #007bff; /* 鮮やかな青色 */
-    color: #fff; /* 白色 */
+/* テキスト入力フィールドのスタイル */
+input[type="text"] {
+    width: 100%; /* 幅を100%にして親要素にフィットするように */
+    padding: 10px; /* テキスト入力フィールドの内側の余白を追加 */
+    margin-bottom: 10px; /* 下部に余白を追加 */
+    box-sizing: border-box; /* 幅や高さを要素の外側に設定するために必要 */
+    border: 1px solid #ccc; /* 薄いグレーのボーダーを追加 */
+    border-radius: 5px; /* 角を丸める */
+}
+
+/* 検索ボタンのスタイル */
+button[type="submit"] {
+    background-color: #ffcc5c; /* 検索ボタンの背景色を明るいオレンジに */
+    color: #fff; /* テキストの色を白色に */
     border: none;
-    padding: 8px 16px;
+    padding: 12px 24px; /* パディングを追加してボタンを大きくする */
     cursor: pointer;
+    border-radius: 5px; /* 角を丸める */
+    font-size: 18px; /* フォントサイズを18pxに設定 */
 }
 
-button:hover {
-    background-color: #0056b3; /* より濃い青色 */
-}
-
+/* リストのスタイル */
 ul {
     list-style-type: none;
+    padding: 0; /* リストの内側の余白を削除 */
 }
 
-p {
-    color: #dc3545; /* 赤色 */
+/* リストアイテムのスタイル */
+li {
+    padding: 10px 0; /* リストアイテムの上下の余白を追加 */
+    border-bottom: 1px solid #ccc; /* アイテム間に薄いボーダーを追加 */
+    font-size: 18px; /* フォントサイズを18pxに設定 */
+}
+
+/* フッターのスタイル */
+footer {
+    background-color: #a0c4ff; /* フッターの背景色を明るい青色に */
+    color: #fff; /* フッターのテキストの色を白色に */
+    padding: 20px 0; /* 上下の余白を追加 */
+    text-align: center; /* テキストを中央揃えに */
+    font-size: 14px; /* フォントサイズを14pxに設定 */
 }
