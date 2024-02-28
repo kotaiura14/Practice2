@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const { default: test } = require('node:test');
 
 const app = express();
 const PORT = 3000;
@@ -8,6 +9,10 @@ const PORT = 3000;
 // Expressアプリでviewsディレクトリを設定する
 app.set('views', path.join(__dirname, 'text'));
 app.set('view engine', 'ejs');
+
+app.use(express.static('text'));
+
+app.use(express.static(path.join(__dirname, 'text')));
 
 // CSS ファイルの MIME タイプを設定
 app.use('/style.css', (req, res, next) => {
@@ -18,11 +23,6 @@ app.use('/style.css', (req, res, next) => {
 // ミドルウェアの設定
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-app.use(express.static('text'));
-// 静的ファイルを提供するディレクトリを public に設定
-app.use(express.static(path.join(__dirname, 'text')));
-
 
 // モンスターリスト
 const monsterList = [
@@ -49,17 +49,26 @@ function searchMonster(query) {
 
 // ルートエンドポイント
 app.get('/', (req, res) => {
-    res.render('text1');
+    // 検索フォームのみを表示するためのレンダリング
+    res.render('text1', { results: null, error: null });
 });
+
+// すべてのパスに対する処理
+app.get('*', (req, res) => {
+    // 検索フォームのみを表示するためのレンダリング
+    res.render('text1', { results: null, error: null });
+});
+
 
 // 検索エンドポイント
 app.get('/search', (req, res) => {
     const query = req.query.q;
     if (!query) {
-        res.status(400).json({ error: '何やってんだ小松！' });
+        const errorMessage = '何やってんだ小松！！'
+        res.render('text1',{results:[], error: errorMessage});
     } else {
         const results = searchMonster(query);
-        res.render('text1',{results});
+        res.render('text1',{results, error: null});
     }
 });
 

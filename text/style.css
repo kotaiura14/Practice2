@@ -1,70 +1,70 @@
-/* Body全体のスタイル */
+/* Body */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f5f5f5; /* 背景色を明るい灰色に */
+    background-color: #f5f5f5; 
     color: #333;
     margin: 0;
     padding: 0;
-    font-size: 16px; /* フォントサイズを16pxに設定 */
+    font-size: 16px; 
 }
 
-/* ヘッダーのスタイル */
+/* ヘッダー */
 header {
-    background-color: #ff6f61; /* ヘッダーの背景色をオレンジに */
-    color: #fff; /* ヘッダーテキストの色を白色に */
-    padding: 20px 0; /* 上下の余白を追加 */
-    text-align: center; /* テキストを中央揃えに */
+    background-color: #ff6f61; 
+    color: #fff; 
+    padding: 20px 0;
+    text-align: center; 
 }
 
-/* メインコンテンツのスタイル */
+/* メイン */
 main {
-    padding: 20px; /* メインコンテンツの余白を追加 */
+    padding: 20px; 
 }
 
-/* フォームのスタイル */
+/* フォーム */
 form {
-    margin-bottom: 20px; /* フォームの下に余白を追加 */
+    margin-bottom: 20px; 
 }
 
-/* テキスト入力フィールドのスタイル */
+/* テキスト入力*/
 input[type="text"] {
-    width: 100%; /* 幅を100%にして親要素にフィットするように */
-    padding: 10px; /* テキスト入力フィールドの内側の余白を追加 */
-    margin-bottom: 10px; /* 下部に余白を追加 */
-    box-sizing: border-box; /* 幅や高さを要素の外側に設定するために必要 */
-    border: 1px solid #ccc; /* 薄いグレーのボーダーを追加 */
-    border-radius: 5px; /* 角を丸める */
+    width: 100%; 
+    padding: 10px; 
+    margin-bottom: 10px; 
+    box-sizing: border-box; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
 }
 
-/* 検索ボタンのスタイル */
+/* 検索ボタン */
 button[type="submit"] {
-    background-color: #ffcc5c; /* 検索ボタンの背景色を明るいオレンジに */
-    color: #fff; /* テキストの色を白色に */
+    background-color: #ffcc5c; 
+    color: #fff; 
     border: none;
-    padding: 12px 24px; /* パディングを追加してボタンを大きくする */
+    padding: 12px 24px; 
     cursor: pointer;
-    border-radius: 5px; /* 角を丸める */
-    font-size: 18px; /* フォントサイズを18pxに設定 */
+    border-radius: 5px; 
+    font-size: 18px; 
 }
 
-/* リストのスタイル */
+/* リスト*/
 ul {
     list-style-type: none;
-    padding: 0; /* リストの内側の余白を削除 */
+    padding: 0; 
 }
 
-/* リストアイテムのスタイル */
+/* リストアイテム */
 li {
-    padding: 10px 0; /* リストアイテムの上下の余白を追加 */
-    border-bottom: 1px solid #ccc; /* アイテム間に薄いボーダーを追加 */
-    font-size: 18px; /* フォントサイズを18pxに設定 */
+    padding: 10px 0; 
+    border-bottom: 1px solid #ccc; 
+    font-size: 18px; 
 }
 
 /* フッターのスタイル */
 footer {
-    background-color: #a0c4ff; /* フッターの背景色を明るい青色に */
-    color: #fff; /* フッターのテキストの色を白色に */
-    padding: 20px 0; /* 上下の余白を追加 */
-    text-align: center; /* テキストを中央揃えに */
-    font-size: 14px; /* フォントサイズを14pxに設定 */
+    background-color: #a0c4ff; 
+    color: #fff; 
+    padding: 20px 0; 
+    text-align: center; 
+    font-size: 14px; 
 }

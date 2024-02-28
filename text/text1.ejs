@@ -10,20 +10,24 @@
     <h1>トリコ！！モンスター検索</h1>
     <form action="/search" method="get">
         <label for="query">モンスター検索！</label>
-        <!-- テキスト入力フィールドを追加 -->
+        <!-- 入力スペース -->
         <input type="text" id="query" name="q" placeholder="ここにモンスター名を入力しろぉ">
-        <!-- 検索ボタンを追加 -->
+        <!-- 検索ボタン -->
         <button type="submit">検索！！</button>
     </form>
     <h3>見つけたぞ小松！！</h3>
-    <!-- 検索結果を表示するための領域 -->
+    <!-- 検索結果を表示 -->
     <ul>
         <% if (typeof results !== 'undefined' && results && results.length > 0) { %>
             <% for (let i = 0; i < results.length; i++) { %>
                 <li><%= results[i] %></li>
             <% } %>
         <% } else { %>
-            <p>見つからないぞ！小松!</p>
+            <% if (typeof error !== 'undefined' && error) { %>
+                <li><%= error %></li>
+            <% } else { %>
+                <li>入力出来てないぞ！小松！！</li>
+            <% } %>
         <% } %>
     </ul>       
 </body>
