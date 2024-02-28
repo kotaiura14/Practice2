@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const { default: test } = require('node:test');
 
 const app = express();
 const PORT = 3000;
@@ -48,17 +49,26 @@ function searchMonster(query) {
 
 // ルートエンドポイント
 app.get('/', (req, res) => {
-    res.render('text1');
+    // 検索フォームのみを表示するためのレンダリング
+    res.render('text1', { results: null, error: null });
 });
+
+// すべてのパスに対する処理
+app.get('*', (req, res) => {
+    // 検索フォームのみを表示するためのレンダリング
+    res.render('text1', { results: null, error: null });
+});
+
 
 // 検索エンドポイント
 app.get('/search', (req, res) => {
     const query = req.query.q;
     if (!query) {
-        res.status(400).json({ error: '何やってんだ小松！' });
+        const errorMessage = '何やってんだ小松！！'
+        res.render('text1',{results:[], error: errorMessage});
     } else {
         const results = searchMonster(query);
-        res.render('text1',{results});
+        res.render('text1',{results, error: null});
     }
 });
 

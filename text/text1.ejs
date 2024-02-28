@@ -22,10 +22,12 @@
             <% for (let i = 0; i < results.length; i++) { %>
                 <li><%= results[i] %></li>
             <% } %>
-            <% } else if (!results) { %>
-            <p>見つからないぞ！小松!</p>
         <% } else { %>
-            <p>何やってんだ小松！！</p>
+            <% if (typeof error !== 'undefined' && error) { %>
+                <li><%= error %></li>
+            <% } else { %>
+                <li>入力出来てないぞ！小松！！</li>
+            <% } %>
         <% } %>
     </ul>       
 </body>
