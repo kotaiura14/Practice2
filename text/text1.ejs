@@ -4,18 +4,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>モンスター検索</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <h1>トリコ！！モンスター検索</h1>
     <form action="/search" method="get">
         <label for="query">モンスター検索！</label>
         <!-- テキスト入力フィールドを追加 -->
-        <input type="text" id="query" name="q" placeholder="モンスター名を入力してください">
+        <input type="text" id="query" name="q" placeholder="ここにモンスター名を入力しろぉ">
         <!-- 検索ボタンを追加 -->
-        <button type="submit">検索</button>
+        <button type="submit">検索！！</button>
     </form>
-    <h2>捕獲レベル検索！</h2>
+    <h3>見つけたぞ小松！！</h3>
     <!-- 検索結果を表示するための領域 -->
     <ul>
         <% if (typeof results !== 'undefined' && results && results.length > 0) { %>
@@ -23,7 +23,7 @@
                 <li><%= results[i] %></li>
             <% } %>
         <% } else { %>
-            <p></p>
+            <p>見つからないぞ！小松!</p>
         <% } %>
     </ul>       
 </body>
