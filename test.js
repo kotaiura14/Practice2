@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const { default: test } = require('node:test');
 
 const app = express();
 const PORT = 3000;
@@ -52,13 +51,6 @@ app.get('/', (req, res) => {
     // 検索フォームのみを表示するためのレンダリング
     res.render('text1', { results: null, error: null });
 });
-
-// すべてのパスに対する処理
-app.get('*', (req, res) => {
-    // 検索フォームのみを表示するためのレンダリング
-    res.render('text1', { results: null, error: null });
-});
-
 
 // 検索エンドポイント
 app.get('/search', (req, res) => {
