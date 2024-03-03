@@ -40,11 +40,54 @@ const monsterList = [
 
 // 検索関数
 function searchMonster(query) {
-    const initial = query.charAt(0); // 検索クエリの最初の文字を取得
-    const regex = new RegExp(`^${initial}.*$`); // 最初の文字にマッチする正規表現を作成
-    const matches = monsterList.filter(monster => regex.test(monster));
+    // ひらがなやカタカナを含むクエリを変換する
+    const normalizedQuery = normalizeQuery(query);
+    // 検索クエリの最初の文字を取得
+    const initial = normalizedQuery.charAt(0);
+    // 最初の文字にマッチする正規表現を作成
+    const regex = new RegExp(`^${initial}.*$`);
+    // モンスター名もひらがなやカタカナを含む形式に変換してから比較
+    const matches = monsterList.filter(monster => regex.test(normalizeQuery(monster)));
     return matches;
 }
+
+// クエリのひらがなやカタカナを変換する関数
+function normalizeQuery(query) {
+    // 変換リスト
+    const kanaMap = {
+        'あ': 'ア', 'い': 'イ', 'う': 'ウ', 'え': 'エ', 'お': 'オ',
+        'か': 'カ', 'き': 'キ', 'く': 'ク', 'け': 'ケ', 'こ': 'コ',
+        'さ': 'サ', 'し': 'シ', 'す': 'ス', 'せ': 'セ', 'そ': 'ソ',
+        'た': 'タ', 'ち': 'チ', 'つ': 'ツ', 'て': 'テ', 'と': 'ト',
+        'な': 'ナ', 'に': 'ニ', 'ぬ': 'ヌ', 'ね': 'ネ', 'の': 'ノ',
+        'は': 'ハ', 'ひ': 'ヒ', 'ふ': 'フ', 'へ': 'ヘ', 'ほ': 'ホ',
+        'ま': 'マ', 'み': 'ミ', 'む': 'ム', 'め': 'メ', 'も': 'モ',
+        'や': 'ヤ', 'ゆ': 'ユ', 'よ': 'ヨ',
+        'ら': 'ラ', 'り': 'リ', 'る': 'ル', 'れ': 'レ', 'ろ': 'ロ',
+        'わ': 'ワ', 'を': 'ヲ', 'ん': 'ン',
+        'が': 'ガ', 'ぎ': 'ギ', 'ぐ': 'グ', 'げ': 'ゲ', 'ご': 'ゴ',
+        'ざ': 'ザ', 'じ': 'ジ', 'ず': 'ズ', 'ぜ': 'ゼ', 'ぞ': 'ゾ',
+        'だ': 'ダ', 'ぢ': 'ヂ', 'づ': 'ヅ', 'で': 'デ', 'ど': 'ド',
+        'ば': 'バ', 'び': 'ビ', 'ぶ': 'ブ', 'べ': 'ベ', 'ぼ': 'ボ',
+        'ぱ': 'パ', 'ぴ': 'ピ', 'ぷ': 'プ', 'ぺ': 'ペ', 'ぽ': 'ポ',
+        'ぁ': 'ァ', 'ぃ': 'ィ', 'ぅ': 'ゥ', 'ぇ': 'ェ', 'ぉ': 'ォ',
+        'っ': 'ッ', 'ゃ': 'ャ', 'ゅ': 'ュ', 'ょ': 'ョ', 'ゎ': 'ヮ',
+        'ー': 'ー'
+    };
+
+    // クエリを一文字ずつ処理してひらがなやカタカナを含む形式に変換する
+    const normalizedQuery = query.split('').map(char => {
+        // 変換マップに含まれる場合は変換を行う
+        if (char in kanaMap) {
+            return kanaMap[char];
+        }
+        // 含まれない場合はそのまま返す
+        return char;
+    }).join(''); // 文字列に戻す
+
+    return normalizedQuery;
+}
+
 
 // ルートエンドポイント
 app.get('/', (req, res) => {
