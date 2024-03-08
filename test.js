@@ -91,11 +91,16 @@ app.get('/', (req, res) => {
 app.get('/search', (req, res) => {
     const query = req.query.q;
     if (!query) {
-        const errorMessage = '何やってんだ小松！！'
-        res.render('text1',{results:[], error: errorMessage});
+        const errorMessage = '何やってんだ小松！！';
+        res.render('text1', { results: [], error: errorMessage });
     } else {
         const results = searchMonster(query);
-        res.render('text1',{results, error: null});
+        if (results.length === 0) {
+            const errorMessage = '見つからないぞ小松！！';
+            res.render('text1', { results: [], error: errorMessage });
+        } else {
+            res.render('text1', { results: results, error: null });
+        }
     }
 });
 
