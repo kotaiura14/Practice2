@@ -18,18 +18,14 @@
     <h3>見つけたぞ小松！！</h3>
     <!-- 検索結果を表示 -->
     <ul>
-        <% if (typeof results !== 'undefined' && results && results.length > 0) { %>
+        <% if (results && results.length > 0) { %>
             <% for (let i = 0; i < results.length; i++) { %>
                 <li><%= results[i] %></li>
             <% } %>
         <% } else { %>
-            <% if (typeof error !== 'undefined' && error) { %>
-                <li><%= error %></li>
-            <% } else { %>
-                <li>入力出来てないぞ！小松！！</li>
-            <% } %>
+            <li><%= error %></li>
         <% } %>
-    </ul>       
+    </ul>         
 </body>
 </html>
 
