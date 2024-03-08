@@ -1,12 +1,19 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const kuromoji = require('kuromoji');
 
 const app = express();
 const PORT = 3000;
 
 const monsterList = require('./list/monsterList');
 const kanaMap = require('./list/kanaList')
+
+// Kuromojiの初期化
+kuromoji.builder({ dicPath: 'C:\\Users\\kamel\\OneDrive\\デスクトップ\\program_ren\\Practice2\\text\\dict' }).build(function (err, _tokenizer) {
+    if (err) throw err;
+    tokenizer = _tokenizer;
+});
 
 // Expressアプリでviewsディレクトリを設定する
 app.set('views', path.join(__dirname, 'text'));
@@ -22,22 +29,40 @@ app.use('/style.css', (req, res, next) => {
     next();
 });
 
+// Kuromojiを使用してクエリ文字列をひらがなに変換する関数
+function convertToHiragana(query) {
+    const tokens = tokenizer.tokenize(query);
+    let hiragana = '';
+    for (const token of tokens) {
+        if (token.reading) {
+            // 読みがある場合は読みを利用する
+            hiragana += token.reading;
+        } else {
+            // 読みがない場合は表層形を利用する
+            hiragana += token.surface_form;
+        }
+    }
+    return hiragana;
+}
+
+
 // ミドルウェアの設定
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // 検索関数
 function searchMonster(query) {
-    // ひらがなやカタカナを含むクエリを変換する
-    const normalizedQuery = normalizeQuery(query);
-    // 検索クエリの最初の文字を取得
-    const initial = normalizedQuery.charAt(0);
-    // 最初の文字にマッチする正規表現を作成
-    const regex = new RegExp(`^${initial}.*$`);
-    // モンスター名もひらがなやカタカナを含む形式に変換してから比較
-    const matches = monsterList.filter(monster => regex.test(normalizeQuery(monster)));
+    // クエリをひらがなに変換
+    const normalizedQuery = convertToHiragana(query);
+    // 入力文字列がモンスター名に部分一致するかを検索
+    const matches = monsterList.filter(monster => {
+        const hiraganaMonster = convertToHiragana(monster);
+        // モンスター名が入力文字列の頭文字で始まる場合のみマッチする
+        return hiraganaMonster.startsWith(normalizedQuery);
+    });
     return matches;
 }
+
 
 // クエリのひらがなやカタカナを変換する関数
 function normalizeQuery(query) {
