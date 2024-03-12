@@ -8,6 +8,7 @@ const PORT = 3000;
 
 const monsterList = require('./list/monsterList');
 const kanaMap = require('./list/kanaList')
+const lebelList = require('./list/lebelList')
 
 // Kuromojiの初期化
 kuromoji.builder({ dicPath: 'C:\\Users\\kamel\\OneDrive\\デスクトップ\\program_ren\\Practice2\\text\\dict' }).build(function (err, _tokenizer) {
@@ -87,7 +88,7 @@ app.get('/', (req, res) => {
     res.render('text1', { results: null, error: null });
 });
 
-// 検索エンドポイント
+// モンスター名検索エンドポイント
 app.get('/search', (req, res) => {
     const query = req.query.q;
     if (!query) {
@@ -103,6 +104,38 @@ app.get('/search', (req, res) => {
         }
     }
 });
+
+// 捕獲レベル検索エンドポイント
+app.get('/search-lebel', (req, res) => {
+    const query = req.query.q;
+
+    // クエリが空の場合はエラーメッセージを返す
+    if (!query) {
+        const errorMessage = '何やってんだ小松！！';
+        res.render('text1', { results: [], error: errorMessage });
+        return;
+    }
+
+    // モンスター名からレベルを検索
+    let index = monsterList.indexOf(query);
+    if (index !== -1) {
+        const level = lebelList[index];
+        res.render('text1', { results: [`捕獲レベル: ${level}`], error: null });
+        return;
+    }
+
+    // レベルからモンスター名を検索
+    index = lebelList.indexOf(query);
+    if (index !== -1) {
+        const monsterName = monsterList[index];
+        res.render('text1', { results: [`${monsterName}`], error: null });
+        return;
+    }
+
+    const errorMessage = '見つからないぞ小松！！';
+    res.render('text1', { results: [], error: errorMessage });
+});
+
 
 
 // サーバーの起動
