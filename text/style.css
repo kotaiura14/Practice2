@@ -47,6 +47,16 @@ button[type="submit"] {
     font-size: 18px; 
 }
 
+button[type="submit1"] {
+    background-color: #ff6f61; 
+    color: #fff; 
+    border: none;
+    padding: 12px 24px; 
+    cursor: pointer;
+    border-radius: 5px; 
+    font-size: 18px; 
+}
+
 /* リスト*/
 ul {
     list-style-type: none;
