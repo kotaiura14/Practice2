@@ -37,13 +37,17 @@ function searchLevel(query, monsterList, lebelList) {
     }
 
     // レベルからモンスター名を検索
-    index = lebelList.indexOf(query);
-    if (index !== -1) {
-        const monsterName = monsterList[index];
-        return { results: [`${monsterName}`], error: null };
+    const matchingMonsters = [];
+    for (let i = 0; i < lebelList.length; i++) {
+    if (lebelList[i] === query) {
+        matchingMonsters.push(monsterList[i]);
     }
-
-    return { results: [], error: '見つからないぞ小松！！' };
+    }
+    if (matchingMonsters.length > 0) {
+        return { results: matchingMonsters, error: null };
+    } else {
+        return { results: [], error: '見つからないぞ小松！！' }
+    }
 }
 
 module.exports = { convertToHiragana, searchMonster, searchLevel };
