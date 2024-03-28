@@ -276,5 +276,4 @@ const lebelList = [
     "70",
     "不明"
 ];
-
 module.exports = lebelList;
