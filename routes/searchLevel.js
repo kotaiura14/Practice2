@@ -9,12 +9,14 @@ router.get('/', (req, res) => {
         res.render('text1', { results: [], error: errorMessage });
     } else {
         const monsterList = req.app.locals.monsterList; // モンスターリストを取得
-        const lebelList = req.app.locals.lebelList; // レベルリストを取得
-        const results = searchLevel(query, monsterList, lebelList);
-        if (results.error) {
-            res.render('text1', { results: [], error: results.error });
-        } else {
-            res.render('text1', { results: results.results, error: null });
+        const levelList = req.app.locals.levelList; // レベルリストを取得
+        const searchResult = searchLevel(query, monsterList, levelList);
+        if (searchResult.error) {
+            res.render('text1', { results: [], error: searchResult.error });
+        } else if (searchResult.results) {
+            res.render('text1', { results: searchResult.results, error: null });
+        } else if (searchResult.level) {
+            res.render('text1', { results: [searchResult.level], error: null });
         }
     }
 });
