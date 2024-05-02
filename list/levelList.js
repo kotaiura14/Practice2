@@ -1,5 +1,5 @@
 // 捕獲レベルリスト
-const lebelList = [
+const levelList = [
     "2",
     "1以下",
     "2",
@@ -277,4 +277,4 @@ const lebelList = [
     "不明"
 ];
 
-module.exports = lebelList;
+module.exports = levelList;
