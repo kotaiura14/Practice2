@@ -9,12 +9,13 @@ const PORT = 3000;
 // モンスターリストの読み込み
 const monsterList = require('./list/monsterList');
 const levelList = require('./list/levelList');
+const monsterDict = require('./dict/monsterDict')
 
 // body-parserミドルウェアの使用
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Kuromojiの初期化
-kuromoji.builder({ dicPath: 'C:\\Users\\kamel\\OneDrive\\デスクトップ\\program_ren\\Practice2\\text\\dict' }).build(function (err, _tokenizer) {
+kuromoji.builder({ dicPath:'text/dict'}).build(function (err, _tokenizer) {
     if (err) throw err;
     app.locals.tokenizer = _tokenizer; // Tokenizerをローカル変数として設定
 });
@@ -53,5 +54,6 @@ app.locals.levelList = levelList;
 
 // サーバーの起動
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`)
+    console.log(monsterDict);
 });

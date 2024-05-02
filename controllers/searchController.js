@@ -1,31 +1,35 @@
 // Kuromojiを使用してクエリ文字列をひらがなに変換する関数
-function convertToHiragana(query, tokenizer) {
-    const tokens = tokenizer.tokenize(query);
-    let hiragana = '';
-    for (const token of tokens) {
-        if (token.reading) {
-            // 読みがある場合は読みを利用する
-            hiragana += token.reading;
-        } else {
-            // 読みがない場合は表層形を利用する
-            hiragana += token.surface_form;
-        }
-    }
-    return hiragana;
-}
+// function convertToHiragana(query, tokenizer) {
+//     //
+//     const tokens = tokenizer.tokenize(query);
+//     let hiragana = '';
+//     for (const token of tokens) {
+//         if (token.reading) {
+//             // 読みがある場合は読みを利用する
+//             hiragana += token.reading;
+//         } else {
+//             // 読みがない場合は表層形を利用する
+//             hiragana += token.surface_form;
+//         }
+//     }
+//     return hiragana;
+// }
 
 // 検索関数
-function searchMonster(query, monsterList, tokenizer) {
-    // クエリをひらがなに変換
-    const normalizedQuery = convertToHiragana(query, tokenizer);
-    // 入力文字列がモンスター名に部分一致するかを検索
-    const matches = monsterList.filter(monster => {
-        const hiraganaMonster = convertToHiragana(monster, tokenizer);
-        // モンスター名が入力文字列の頭文字で始まる場合のみマッチする
-        return hiraganaMonster.startsWith(normalizedQuery);
-    });
-    return matches;
+function searchMonster(monsterDict, query) {
+    let results = []; // 結果を格納する配列
+    for (const [key, value] of Object.entries(monsterDict)) {
+        if (value.startsWith(query)) {
+            results.push(key); // 一致するモンスター名を配列に追加
+        }
+    }
+    if (results.length > 0) {
+        return results; // 一致するものがあれば結果の配列を返す
+    } else {
+        return ["見つからないぞ小松！！"]; // 一致するものがなければエラーメッセージを配列に入れて返す
+    }
 }
+
 
 // レベル検索関数
 function searchLevel(query, monsterList, lebelList) {
@@ -50,4 +54,4 @@ function searchLevel(query, monsterList, lebelList) {
     }
 }
 
-module.exports = { convertToHiragana, searchMonster, searchLevel };
+module.exports = {  searchMonster, searchLevel };
