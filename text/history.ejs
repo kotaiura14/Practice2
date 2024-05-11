@@ -1,0 +1,22 @@
+<!-- index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search History</title>
+</head>
+<body>
+    <h1>Search History</h1>
+    <form action="/searchHistory" method="post">
+        <input type="text" name="query" placeholder="Search Query">
+        <button type="submit">Search</button>
+    </form>
+    <h2>Recent Searches:</h2>
+    <ul>
+        <% searchHistory.forEach(function(query) { %>
+            <li><%= query %></li>
+        <% }); %>
+    </ul>
+</body>
+</html>
