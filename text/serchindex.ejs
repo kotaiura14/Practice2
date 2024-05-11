@@ -50,12 +50,15 @@
                     <li>
                         <%= history.search_history %> - <%= history.timeStamp %>
                         <!-- 更新フォーム -->
-                        <form action="/search/<%= history.id %>" method="post">
+                        <form action="/search/<%= history.id %>?_method=PUT" method="post">
                             <input type="hidden" name="_method" value="put">
-                            <input type="text" name="q" placeholder="更新内容">
+                            <input type="text" id ="body" name="q" placeholder="更新内容">
                             <button type="submit">更新</button>
                         </form>
-
+                        <form action="/search/<%= history.id %>?_method=DELETE" method="post">
+                            <input type="hidden" name="_method" value="delete">
+                            <button type="submit">削除</button>
+                        </form>                        
                     </li>
                 <% }); %>
             <% } else { %>
