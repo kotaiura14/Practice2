@@ -14,7 +14,7 @@ function errorHandler(err, req, res, next) {
 //ログの出力するミドルウェアを設定
 router.use(morgan('dev'));
 
-const searchHistory = [];
+let searchHistory = [];
 let nextId = 1
 
 router.post('/', (req, res, next) => {
@@ -59,7 +59,7 @@ router.get('/', async (req, res, next) => {
         if (!query) {
             const errorMessage = '何やってんだ小松！！';
             console.error(errorMessage);
-            return res.render('index', { search_results: [], error: errorMessage, searchHistory:searchHistory });
+            return res.render('serchindex', { search_results: [], error: errorMessage, searchHistory:searchHistory });
         }
         //monster_dictを変数として宣言
         const monsterDict_copy = req.app.locals.monsterDict_copy; // モンスターリストを取得
@@ -69,7 +69,7 @@ router.get('/', async (req, res, next) => {
         if (search_results.length === 0) {
             const errorMessage = '見つからないぞ小松！！';
             console.error(errorMessage);
-            return res.render('index', { search_results: [], error: errorMessage, searchHistory:searchHistory });
+            return res.render('serchindex', { search_results: [], error: errorMessage, searchHistory:searchHistory });
         }
 
         res.render('serchindex', { search_results: search_results, error: null, searchHistory:searchHistory });
@@ -94,6 +94,7 @@ router.put('/:id', (req, res, next) => {
             searchHistory[historyIndex].search_history = newHistory;
             searchHistory[historyIndex].timeStamp = new Date(); // Update the timestamp
             console.log(searchHistory)
+            res.redirect('/search');
         }
     } catch (error) {
         next(error);
@@ -101,6 +102,8 @@ router.put('/:id', (req, res, next) => {
 });
 
 router.delete('/:id', (req, res, next) => {
+        console.log(req.method); // 本来は 'POST' が表示されるが、ここで 'PUT' が表示されれば成功
+
     try {
         const itemId = parseInt(req.params.id);
         const initialLength = searchHistory.length;
@@ -108,7 +111,8 @@ router.delete('/:id', (req, res, next) => {
         if (searchHistory.length === initialLength) {
             res.status(404).send('項目が見つかりません');
         } else {
-            res.send('削除成功');
+            console.log('削除成功');
+            res.redirect('/search');
         }
     } catch (error) {
         next(error);
