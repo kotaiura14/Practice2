@@ -16,10 +16,13 @@ function errorHandler(err, req, res, next) {
 router.get('/', async (req, res, next) => {
     try {
         const query = req.query.q;
+        //ログ
+        console.log('Received GET request with query:', query);
 
         if (!query) {
             const errorMessage = '何やってんだ小松！！';
-            res.render('index', { level_results: [], error: errorMessage });
+            console.error(errorMessage);
+            res.render('levelindex', { level_results: [], error: errorMessage });
         } 
             const monsterDict_copy = req.app.locals.monsterDict_copy; // レベルリストを取得
             const level_results = await searchLevel(query, monsterDict_copy);
@@ -27,17 +30,18 @@ router.get('/', async (req, res, next) => {
         
             if (level_results.length === 0) {
                 const errorMessage = '見つからないぞ小松！！';
-                return res.render('index', { level_results: [], error: errorMessage});
+                return res.render('levelindex', { level_results: [], error: errorMessage});
             }
 
-        // res.render('levelindex', { level_results: level_results, error: null});
+        res.render('levelindex', { level_results: level_results, error: null});
     } catch (error) {
+        console.error('An error occurred:', error);
         next(error);
     }
 });
 app.get('/search', (req, res) => {
     // 検索フォームのみを表示するためのレンダリング
-    res.render('serchindex', { search_results: null, error: null, difficulty: '', questionCount: '' });
+    res.render('levelindex', { search_results: null, error: null, difficulty: '', questionCount: '' });
 });
 
 

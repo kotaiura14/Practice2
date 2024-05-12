@@ -11,7 +11,7 @@
     <form action="/search" method="post">
         <h2>モンスター投稿</h2>
         <!-- 入力スペース -->
-        <input type="text" id="body" name="q" placeholder="ここにテキトー入力しろ！">
+        <input type="text" id="body" name="q" placeholder="ここに履歴を残したいモンスターを入力しろ！！！">
         <!-- 検索ボタン -->
         <button type="submit">投稿</button>
     </form>
@@ -50,11 +50,16 @@
                     <li>
                         <%= history.search_history %> - <%= history.timeStamp %>
                         <!-- 更新フォーム -->
-                        <form action="/search/<%= history.id %>" method="post">
+                        <form action="/search/<%= history.id %>?_method=PUT" method="post">
                             <input type="hidden" name="_method" value="put">
                             <input type="text" name="q" placeholder="更新内容">
                             <button type="submit">更新</button>
                         </form>
+
+                        <form action="/search/<%= history.id %>?_method=DELETE" method="post">
+                            <input type="hidden" name="_method" value="delete">
+                            <button type="submit">削除</button>
+                        </form>                        
 
                     </li>
                 <% }); %>
@@ -70,7 +75,6 @@
                 <% search_results.forEach(function(monster) { %>
                     <li>
                         <name>名前：</name><%= monster.name %>
-                        <dis>ふり：</dis><%= monster.hiragana %>
                         <level>捕獲レベル</level><%= monster.level %>
                     </li>
                 <% }); %>
