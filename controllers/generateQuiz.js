@@ -33,19 +33,17 @@ function generateQuiz(difficulty, questionCount) {
             continue; // すでに存在する場合はスキップして次の問題を生成
         }
 
+        let choices = [];
         let correctLevel;
 
-        if (level === '不明' || level === '測定不能' || level === '1以下') {
+        if (level === '不明' || level === '測定不能') {
+            choices = generateRandomThreeDigitChoices();
             correctLevel = level;
+        } else if (level === '1以下') {
+            choices = generateChoicesForOneOrLess();
+            correctLevel = "1以下";
         } else {
             correctLevel = parseFloat(level);
-        }
-
-        let choices = [];
-
-        if (correctLevel === '不明' || correctLevel === '測定不能' || correctLevel === '1以下') {
-            choices = ['不明', '測定不能', '1以下'];
-        } else {
             if (correctLevel < 10) { // 1桁の場合の処理
                 choices = generateChoicesForSingleDigit(correctLevel);
             } else {
@@ -68,14 +66,65 @@ function generateQuiz(difficulty, questionCount) {
     return quizzes;
 }
 
+// 3桁のランダムな選択肢を生成する関数
+function generateRandomThreeDigitChoices() {
+    const choices = ["不明"];
+    const existingNumbers = new Set();
+    existingNumbers.add(1);
+    for (let i = 0; i < 3; i++) {
+        let randomChoice;
+        do {
+            randomChoice = Math.floor(Math.random() * 900) + 100; // 100から999までのランダムな数値
+        } while (existingNumbers.has(randomChoice));
+        existingNumbers.add(randomChoice);
+        choices.push(randomChoice.toString());
+    }
+    
+    // 選択肢をシャッフルする
+    for (let i = choices.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [choices[i], choices[j]] = [choices[j], choices[i]];
+    }
+    
+    return choices;
+}
+
+
+
+
+// 1以下の選択肢を生成する関数
+function generateChoicesForOneOrLess() {
+    const choices = ["1以下"];
+    const existingNumbers = new Set();
+    existingNumbers.add(1);
+    for (let i = 0; i < 3; i++) {
+        let randomChoice;
+        do {
+            randomChoice = Math.floor(Math.random() * 9) + 1; // 1から9までのランダムな数値
+        } while (existingNumbers.has(randomChoice));
+        existingNumbers.add(randomChoice);
+        choices.push(randomChoice.toString());
+    }
+    
+    // 選択肢をシャッフルする
+    for (let i = choices.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [choices[i], choices[j]] = [choices[j], choices[i]];
+    }
+    
+    return choices;
+}
+
+
 // 1桁の選択肢を生成する関数
 function generateChoicesForSingleDigit(correctLevel) {
     const choices = [];
     const digits = [];
     for (let i = 1; i <= 9; i++) {
-        digits.push(i);
+        if (i !== correctLevel) {
+            digits.push(i);
+        }
     }
-    digits.splice(correctLevel - 1, 1); // 正解の数値を除外
     choices.push(correctLevel.toString()); // 正解の数値を先頭に挿入
     for (let i = 0; i < 3; i++) {
         const randomIndex = Math.floor(Math.random() * digits.length);

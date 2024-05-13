@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>トリコ！！検索</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <h1>トリコ！！投稿</h1>
+    <form action="/search" method="post">
+        <h2>モンスター投稿</h2>
+        <!-- 入力スペース -->
+        <input type="text" id="body" name="q" placeholder="ここに履歴を残したいモンスターを入力しろ！！！">
+        <!-- 検索ボタン -->
+        <button type="submit">投稿</button>
+    </form>
+
+    <h1>トリコ！！検索</h1>
+    <!-- モンスター検索フォーム -->
+    <form action="/search" method="get">
+        <label for="query">モンスター検索！</label>
+        <!-- 入力スペース -->
+        <input type="text" id="query" name="q" placeholder="ここにテキトー入力しろ！">
+        <!-- 検索ボタン -->
+        <button type="submit">検索！！</button>
+    </form>
+
+
+    <!-- 捕獲レベル検索フォーム -->
+    <form action="/search-lebel" method="get">
+        <label for="levelQuery">捕獲レベル検索！</label>
+        <!-- 入力スペース -->
+        <input type="text" id="levelQuery" name="q" placeholder="ここにモンスター名か捕獲レベルを入力しろ！">
+        <!-- 検索ボタン -->
+        <button type="submit">検索！！</button>
+    </form>
+
+    <!-- クイズページに移行するボタン -->
+    <a href="/quiz">クイズを受ける</a>
+    </form>
+    <h3>見つけたぞ小松！！</h3>
+    <!-- 検索結果を表示 -->
+    <h2>検索履歴</h2>
+
+    <div>
+        <ul>
+            <% if(searchHistory) { %>
+                <% searchHistory.forEach(function(history) { %>
+                    <li>
+                        <%= history.search_history %> - <%= history.timeStamp %>
+                        <!-- 更新フォーム -->
+                        <form action="/search/<%= history.id %>?_method=PUT" method="post">
+                            <input type="hidden" name="_method" value="put">
+                            <input type="text" name="q" placeholder="更新内容">
+                            <button type="submit">更新</button>
+                        </form>
+
+                        <form action="/search/<%= history.id %>?_method=DELETE" method="post">
+                            <input type="hidden" name="_method" value="delete">
+                            <button type="submit">削除</button>
+                        </form>                        
+
+                    </li>
+                <% }); %>
+            <% } else { %>
+                <li>検索結果がありません。</li>
+            <% } %>
+        </ul>
+    </div>
+    <!-- searh_result -->
+    <div>
+        <ul>
+            <% if(search_results) { %>
+                <% search_results.forEach(function(monster) { %>
+                    <li>
+                        <name>名前：</name><%= monster.name %>
+                        <level>捕獲レベル</level><%= monster.level %>
+                    </li>
+                <% }); %>
+            <% } else { %>
+                <li>検索結果がありません。</li>
+            <% } %>
+        </ul>
+    </div>
+
+</body>
+</html>

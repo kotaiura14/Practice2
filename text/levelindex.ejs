@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>モンスター検索</title>
+    <title>トリコ！！検索</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -25,25 +25,30 @@
         <!-- 検索ボタン -->
         <button type="submit">検索！！</button>
     </form>
-    <form>
-    <!-- 履歴に移行 -->
-    <a href="/searchHistory">履歴を見る</a>
-    </form>
-    <form>
+
     <!-- クイズページに移行するボタン -->
     <a href="/quiz">クイズを受ける</a>
     </form>
     <h3>見つけたぞ小松！！</h3>
     <!-- 検索結果を表示 -->
-    <ul>
-        <% if (results && results.length > 0) { %>
-            <% for (let i = 0; i < results.length; i++) { %>
-                <li><%= results[i] %></li>
-            <% } %>
-        <% } else { %>
-            <li><%= error %></li>
-        <% } %>
-    </ul>
+   
 
+    <!-- level_results -->
+    <div>
+        <ul>
+            <% if (level_results && level_results.length > 0) { %>
+                <% level_results.forEach(function(monster) { %>
+                    <li>
+                        <name>名前:</name><%= monster.name %>
+                        <dis>捕獲レベル:</dis><%= monster.level %>
+                    </li>
+                <% }); %>
+    
+            <% } else { %>
+                <li><%= error %></li>
+            <% } %>
+        </ul>
+    </div>
+    
 </body>
 </html>
