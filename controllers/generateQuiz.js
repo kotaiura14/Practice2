@@ -98,8 +98,16 @@ function generateChoicesForOneOrLess() {
         existingNumbers.add(randomChoice);
         choices.push(randomChoice.toString());
     }
+    
+    // 選択肢をシャッフルする
+    for (let i = choices.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [choices[i], choices[j]] = [choices[j], choices[i]];
+    }
+    
     return choices;
 }
+
 
 // 1桁の選択肢を生成する関数
 function generateChoicesForSingleDigit(correctLevel) {
