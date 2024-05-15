@@ -8,7 +8,7 @@ const PORT = 3000;
 // モジュールのインポート
 const monsterList = require('./list/monsterList');
 const levelList = require('./list/levelList');
-const monsterDict_copy = require('./dict/monsterDict_copy');
+const monsterDict = require('./dict/monsterDict');
 
 // Middleware setup
 app.use(express.urlencoded({ extended: true }));
@@ -43,7 +43,7 @@ app.use('/scorePage', require('./routes/scorePage'));
 // Global variables
 app.locals.monsterList = monsterList;
 app.locals.levelList = levelList;
-app.locals.monsterDict_copy = monsterDict_copy;
+app.locals.monsterDict = monsterDict;
 
 // Error handling
 app.use((err, req, res, next) => {

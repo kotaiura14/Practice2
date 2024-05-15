@@ -1,4 +1,4 @@
-const monsterDict_copy = {
+const monsterDict = {
     "貯水ラクダ": {
         lebel: "11",},
     "火山クマ": {

@@ -62,8 +62,8 @@ router.get('/', async (req, res, next) => {
             return res.render('serchindex', { search_results: [], error: errorMessage, searchHistory:searchHistory });
         }
         //monster_dictを変数として宣言
-        const monsterDict_copy = req.app.locals.monsterDict_copy; // モンスターリストを取得
-        const search_results = await searchMonster(query, monsterDict_copy);
+        const monsterDict = req.app.locals.monsterDict; // モンスターリストを取得
+        const search_results = await searchMonster(query, monsterDict);
         const level_results = []
 
         if (search_results.length === 0) {
