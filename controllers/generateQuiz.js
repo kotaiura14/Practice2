@@ -44,11 +44,7 @@ function generateQuiz(difficulty, questionCount) {
             correctLevel = "1以下";
         } else {
             correctLevel = parseFloat(level);
-            if (correctLevel < 10) { // 1桁の場合の処理
-                choices = generateChoicesForSingleDigit(correctLevel);
-            } else {
-                choices = generateChoicesInRange(correctLevel, errorMargin);
-            }
+            choices = generateChoicesInRange(correctLevel, errorMargin);
         }
 
         const correctIndex = choices.findIndex(choice => choice === correctLevel.toString());
@@ -66,7 +62,7 @@ function generateQuiz(difficulty, questionCount) {
     return quizzes;
 }
 
-// 3桁のランダムな選択肢を生成する関数
+// 不明、測定不能の時
 function generateRandomThreeDigitChoices() {
     const choices = ["不明"];
     const existingNumbers = new Set();
@@ -89,7 +85,27 @@ function generateRandomThreeDigitChoices() {
     return choices;
 }
 
-
+function generateRandomThreeDigitChoices() {
+    const choices = ["測定不能"];
+    const existingNumbers = new Set();
+    existingNumbers.add(1);
+    for (let i = 0; i < 3; i++) {
+        let randomChoice;
+        do {
+            randomChoice = Math.floor(Math.random() * 900) + 100; // 100から999までのランダムな数値
+        } while (existingNumbers.has(randomChoice));
+        existingNumbers.add(randomChoice);
+        choices.push(randomChoice.toString());
+    }
+    
+    // 選択肢をシャッフルする
+    for (let i = choices.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [choices[i], choices[j]] = [choices[j], choices[i]];
+    }
+    
+    return choices;
+}
 
 
 // 1以下の選択肢を生成する関数
@@ -115,51 +131,50 @@ function generateChoicesForOneOrLess() {
     return choices;
 }
 
-
-// 1桁の選択肢を生成する関数
-function generateChoicesForSingleDigit(correctLevel) {
-    const choices = [];
-    const digits = [];
-    for (let i = 1; i <= 9; i++) {
-        if (i !== correctLevel) {
-            digits.push(i);
-        }
-    }
-    choices.push(correctLevel.toString()); // 正解の数値を先頭に挿入
-    for (let i = 0; i < 3; i++) {
-        const randomIndex = Math.floor(Math.random() * digits.length);
-        choices.push(digits[randomIndex].toString());
-        digits.splice(randomIndex, 1);
-    }
-    return choices;
-}
-
-// 2桁の選択肢を生成する関数
-function generateChoicesForDoubleDigit(correctLevel) {
-    const choices = [];
-    for (let i = 0; i < 4; i++) {
-        let randomChoice = Math.floor(Math.random() * 100); // 0から99までのランダムな数値
-        randomChoice = avoidDuplicates(choices, randomChoice); // 重複を避ける
-        choices.push(randomChoice.toString().padStart(2, '0')); // 2桁の数値に変換
-    }
-    const correctIndex = Math.floor(Math.random() * 4);
-    choices[correctIndex] = correctLevel.toString().padStart(2, '0'); // 正解の数値に変換
-    return choices;
-}
-
 // 範囲内の選択肢を生成する関数
 function generateChoicesInRange(correctLevel, errorMargin) {
     const errorMarginValue = Math.floor(errorMargin * correctLevel);
-    const minRandomLevel = Math.max(1, correctLevel - errorMarginValue);
-    const maxRandomLevel = Math.min(10, correctLevel + errorMarginValue);
-    const choices = [];
-    for (let j = 0; j < 4; j++) {
-        let randomChoice = Math.round(Math.random() * (maxRandomLevel - minRandomLevel)) + minRandomLevel;
+    let minRandomLevel = Math.max(1, correctLevel - errorMarginValue);
+    let maxRandomLevel = correctLevel + errorMarginValue;
+
+    // 4つの異なる選択肢を保証するために、範囲を広げる
+    while (maxRandomLevel - minRandomLevel < 3) {
+        maxRandomLevel++;
+        if (minRandomLevel > 1) minRandomLevel--;
+    }
+
+    // ランダム生成用配列を作成
+    let numberArray = [];
+    for (let i = minRandomLevel; i <= maxRandomLevel; i++) {
+        numberArray.push(i);
+    }
+
+    // エラーチェック: numberArrayが空でないことを確認
+    if (numberArray.length < 4) {
+        throw new Error("範囲内の値が少なすぎます。エラーマージンを広げてください。");
+    }
+
+    // 重複を避けてランダムに値を選択
+    let choices = [];
+    const existingNumbers = new Set([correctLevel]);
+    for (let j = 0; j < 3; j++) {
+        let randomChoice;
+        do {
+            randomChoice = numberArray[Math.floor(Math.random() * numberArray.length)];
+        } while (existingNumbers.has(randomChoice));
+        existingNumbers.add(randomChoice);
         choices.push(randomChoice.toString());
     }
+
+    // 正解の位置をランダムに決定し挿入
     const correctIndex = Math.floor(Math.random() * 4);
-    choices[correctIndex] = correctLevel.toString();
+    choices.splice(correctIndex, 0, correctLevel.toString());
+
     return choices;
 }
+
+
+
+
 
 module.exports = generateQuiz;
