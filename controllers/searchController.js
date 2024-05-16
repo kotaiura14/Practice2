@@ -1,8 +1,8 @@
 
 // 検索関数
-function searchMonster(query, monsterDict_copy) {
+function searchMonster(query, monsterDict) {
     let results = [];
-    for (const [key, value] of Object.entries(monsterDict_copy)) {
+    for (const [key, value] of Object.entries(monsterDict)) {
             if (value.name.startsWith(query) || value.hiragana.startsWith(query)) {
                 results.push({name: key,  level:value.level});
         }
@@ -19,10 +19,10 @@ function searchMonster(query, monsterDict_copy) {
 
 
 // レベル検索関数
-function searchLevel(query, monsterDict_copy) {
+function searchLevel(query, monsterDict) {
     // モンスター名からレベルを検索
     let results = [];
-    for (const [key, value] of Object.entries(monsterDict_copy)) {
+    for (const [key, value] of Object.entries(monsterDict)) {
         if (value.level === query) {
             results.push({name: key, level:value.level})
         }

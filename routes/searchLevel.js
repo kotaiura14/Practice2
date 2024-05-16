@@ -24,8 +24,8 @@ router.get('/', async (req, res, next) => {
             console.error(errorMessage);
             res.render('levelindex', { level_results: [], error: errorMessage });
         } 
-            const monsterDict_copy = req.app.locals.monsterDict_copy; // レベルリストを取得
-            const level_results = await searchLevel(query, monsterDict_copy);
+            const monsterDict = req.app.locals.monsterDict; // レベルリストを取得
+            const level_results = await searchLevel(query, monsterDict);
             const search_results = []
         
             if (level_results.length === 0) {

@@ -1,4 +1,4 @@
-const sumList = require('../list/sumList');
+const sumList = require('../dict/sumList');
 
 function generateQuiz(difficulty, questionCount) {
     let quizzes = []; // クイズの配列をローカルで定義
