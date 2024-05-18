@@ -22,6 +22,7 @@
                     </label><br>
                 <% } %>
             </div>
+            <input type="hidden" name="quizzes[<%= i %>][correctLevel]" value="<%= quizzes[i].correctLevel %>">
         <% } %>
         <button type="submit">回答する</button>
     </form>    

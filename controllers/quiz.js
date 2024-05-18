@@ -1,58 +1,43 @@
-function handleQuizSubmission(event) {
-    event.preventDefault(); // デフォルトのフォーム送信を停止
 
-    const form = document.getElementById('quizForm');
-    const formData = new FormData(form); // フォームデータを取得
+function calculateScore(req, res) {
+    console.log('Entering calculateScore function');
 
-    // フォームデータを配列に変換
-    const answers = [];
-    const quizzes = []; // クイズの情報を格納する配列を定義
+    try {
+        // リクエストボディから回答とクイズデータを取得
+        const { answers, quizzes } = req.body;
+        console.log('Received answers:', answers);
+        console.log('Received quizzes:', quizzes);
 
-    formData.forEach((value, key) => {
-        // key の形式は 'answers[0]'、'answers[1]' または 'quizzes[0]'、'quizzes[1]' などとなる
-        const index = parseInt(key.match(/\d+/)[0]); // インデックスを抽出
-
-        if (key.startsWith('answers')) {
-            if (!answers[index]) {
-                answers[index] = { selected: value }; // 新しいオブジェクトを作成
-            } else {
-                answers[index].selected = value; // すでに存在する場合は値を更新
-            }
-        } else if (key.startsWith('quizzes')) {
-            // クイズの情報を取得して配列に格納
-            quizzes[index] = { correctLevel: value }; // クイズのデータを追加
+        // クイズデータが正しい形式であるかを確認
+        if (!Array.isArray(quizzes)) {
+            throw new Error('Invalid request: Quizzes must be an array');
         }
-    });
 
-    // サーバーに回答とクイズを送信するためのリクエストを作成
-    const url = '/scorePage';
-    const options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ answers: answers, quizzes: quizzes }) // 回答とクイズを配列として送信
-    };
+        // 正解数をカウントするための変数
+        let correctCount = 0;
 
-    // ログを出力
-    console.log("Answers:", answers);
-    console.log("Quizzes:", quizzes);
-
-    // サーバーにリクエストを送信
-    fetch(url, options)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+        // 回答が正解かどうかをチェック
+        quizzes.forEach((quiz, index) => {
+            if (quiz.correctLevel.toString() === answers[index]) {
+                correctCount++;
             }
-            return response.json();
-        })
-        .then(data => {
-            // サーバーからのレスポンスを処理する
-            console.log("Server response:", data);
-            // ここで必要な処理を行う
-        })
-        .catch(error => {
-            // エラーが発生した場合の処理
-            console.error('There was a problem with the fetch operation:', error);
         });
+
+        // 総質問数
+        const totalQuestions = quizzes.length;
+
+        // スコアオブジェクトを作成
+        const score = {
+            correctCount: correctCount,
+            totalQuestions: totalQuestions
+        };
+
+        // スコアページをレンダリング
+        res.render('scorePage', { score: score });
+    } catch (error) {
+        console.error('Error calculating score:', error.message);
+        res.status(400).send('Error calculating score: ' + error.message);
+    }
 }
+
+module.exports = calculateScore;

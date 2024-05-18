@@ -3,10 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Score Page</title>
+    <title>スコアページ</title>
+    <link rel="stylesheet" href="scorePage.css">
 </head>
 <body>
-    <h1>スコアページ</h1>
-    <p>正解数: <%= score %></p>
+    <div class="container">
+        <h1>テスト結果</h1>
+        <div class="score-box">
+            <p><%= score.totalQuestions %>問中<%= score.correctCount %> 問正解だ小松!!</p>
+        </div>
+        <a href="/quiz">再受験する！！</a>
+    </div>
 </body>
 </html>

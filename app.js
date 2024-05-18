@@ -36,7 +36,7 @@ app.use('/search', require('./routes/search'));
 app.use('/search-lebel', require('./routes/searchLevel'));
 app.use('/quiz', require('./routes/quizLink'));
 app.use('/quizPage', require('./routes/quizPage'));
-app.use('/scorePage', require('./routes/scorePage'));
+app.use('/scorePage', require('./routes/quizScore'));
 
 // Global variables
 app.locals.monsterDict = monsterDict;
