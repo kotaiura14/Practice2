@@ -1,4 +1,4 @@
-const sumList = require('../dict/sumList');
+const monsterDict = require('../dict/monsterDict');
 
 function generateQuiz(difficulty, questionCount) {
     let quizzes = []; // クイズの配列をローカルで定義
@@ -25,8 +25,10 @@ function generateQuiz(difficulty, questionCount) {
 
     // 重複を避けてクイズを生成
     while (quizzes.length < totalQuestions) {
-        let randomIndex = Math.floor(Math.random() * sumList.length);
-        let [randomMonster, level] = sumList[randomIndex].split(', ');
+        const monsterKeys = Object.keys(monsterDict);
+        let randomIndex = Math.floor(Math.random() * monsterKeys.length);
+        let randomMonster = monsterKeys[randomIndex];
+        let level = monsterDict[randomMonster].level;
 
         // すでに存在する問題かどうかをチェック
         if (quizzes.some(quiz => quiz.question === randomMonster)) {
@@ -36,14 +38,21 @@ function generateQuiz(difficulty, questionCount) {
         let choices = [];
         let correctLevel;
 
-        if (level === '不明' || level === '測定不能') {
+        if (level === '不明') {
             choices = generateRandomThreeDigitChoices();
-            correctLevel = level;
+            correctLevel = '不明';
+
+        } else if (level === '測定不能') {
+            choices = generateRandomThreeDigitChoices2();
+            
+            correctLevel = "測定不能";
         } else if (level === '1以下') {
             choices = generateChoicesForOneOrLess();
+            
             correctLevel = "1以下";
         } else {
             correctLevel = parseFloat(level);
+
             choices = generateChoicesInRange(correctLevel, errorMargin);
         }
 
@@ -62,10 +71,11 @@ function generateQuiz(difficulty, questionCount) {
     return quizzes;
 }
 
-// 不明、測定不能の時
+// 不明の時
 function generateRandomThreeDigitChoices() {
     const choices = ["不明"];
     const existingNumbers = new Set();
+
     existingNumbers.add(1);
     for (let i = 0; i < 3; i++) {
         let randomChoice;
@@ -84,10 +94,11 @@ function generateRandomThreeDigitChoices() {
     
     return choices;
 }
-
-function generateRandomThreeDigitChoices() {
+//測定不能の時
+function generateRandomThreeDigitChoices2() {
     const choices = ["測定不能"];
     const existingNumbers = new Set();
+
     existingNumbers.add(1);
     for (let i = 0; i < 3; i++) {
         let randomChoice;

@@ -1,28 +1,12 @@
 <!DOCTYPE html>
-<html lang="ja"> 
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>クイズスコア</title> 
-    <style>
-        /* スコア表示部分のスタイル */
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-    </style>
+    <title>Score Page</title>
 </head>
 <body>
-    <h1>クイズスコア</h1>
-    <p>おめでとうございます！クイズの回答が完了しました。</p>
-    <p>以下はあなたのスコアです：</p>
-    <ul>
-        <li>正解数: <%= score.correctCount %></li>
-        <li>回答数: <%= score.totalQuestions %></li>
-        <li>正解率: <%= score.correctCount === 0 ? '0' : ((score.correctCount / score.totalQuestions) * 100).toFixed(2) %>%</li> <!-- 小数点以下の数字の表示を修正 -->
-    </ul>
+    <h1>スコアページ</h1>
+    <p>正解数: <%= score %></p>
 </body>
 </html>

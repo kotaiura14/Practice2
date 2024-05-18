@@ -1,4 +1,3 @@
-
 // 検索関数
 function searchMonster(query, monsterDict) {
     let results = [];

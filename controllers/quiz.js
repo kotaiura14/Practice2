@@ -20,7 +20,7 @@ function handleQuizSubmission(event) {
             }
         } else if (key.startsWith('quizzes')) {
             // クイズの情報を取得して配列に格納
-            quizzes[index] = value;
+            quizzes[index] = { correctLevel: value }; // クイズのデータを追加
         }
     });
 
@@ -34,6 +34,10 @@ function handleQuizSubmission(event) {
         body: JSON.stringify({ answers: answers, quizzes: quizzes }) // 回答とクイズを配列として送信
     };
 
+    // ログを出力
+    console.log("Answers:", answers);
+    console.log("Quizzes:", quizzes);
+
     // サーバーにリクエストを送信
     fetch(url, options)
         .then(response => {
@@ -44,7 +48,7 @@ function handleQuizSubmission(event) {
         })
         .then(data => {
             // サーバーからのレスポンスを処理する
-            console.log(data);
+            console.log("Server response:", data);
             // ここで必要な処理を行う
         })
         .catch(error => {
