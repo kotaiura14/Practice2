@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const morgan = require('morgan')
 const { searchMonster } = require('../controllers/searchController');
+const SearchResult = require('../model/user');
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
@@ -70,6 +71,16 @@ router.get('/', async (req, res, next) => {
             const errorMessage = '見つからないぞ小松！！';
             console.error(errorMessage);
             return res.render('searchindex', { search_results: [], error: errorMessage, searchHistory:searchHistory });
+        }
+
+        //データベースに保存
+        for (const monster of search_results) {
+            const newResult = new SearchResult({
+                name: monster.name,
+                level: monster.level.toString() // 数値を文字列に変換
+            });
+            await newResult.save();
+            console.log('Saved new result to DB:', newResult);
         }
 
         res.render('serchindex', { search_results: search_results, error: null, searchHistory:searchHistory });
