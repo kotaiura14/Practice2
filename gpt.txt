@@ -1,0 +1,70 @@
+MongoDBのログを確認すると、次のエラーが原因でシャットダウンしていることがわかります：
+
+plaintext
+
+{"t":{"$date":"2024-05-19T21:14:13.914+09:00"},"s":"E",  "c":"CONTROL",  "id":20557,   "ctx":"initandlisten","msg":"DBException in initAndListen, terminating","attr":{"error":"NonExistentPath: Data directory /data/db not found. Create the missing directory or specify another path using (1) the --dbpath command line option, or (2) by adding the 'storage.dbPath' option in the configuration file."}}
+これは、MongoDBがデフォルトのデータディレクトリ /data/db を見つけられなかったために起きているエラーです。このディレクトリが存在しないため、MongoDBは起動できませんでした。
+
+解決方法
+データディレクトリを作成する:
+MongoDBが期待するデフォルトのデータディレクトリ /data/db を作成します。
+
+bash
+
+sudo mkdir -p /data/db
+sudo chown -R `id -u` /data/db
+別のディレクトリを指定する:
+MongoDBを起動する際に、存在するディレクトリを指定します。例えば、現在のユーザーのホームディレクトリ内のディレクトリを使用する場合は、次のようにします。
+
+bash
+
+mongod --dbpath ~/mongo-data
+または、MongoDBの設定ファイルで storage.dbPath オプションを設定することもできます。設定ファイル（通常は mongod.conf）に以下のように記述します。
+
+yaml
+
+storage:
+  dbPath: /path/to/your/db
+これらの方法でデータディレクトリの問題を解決した後、再度MongoDBを起動してみてください。
+
+
+mkdir -p ~/mongo-data
+
+
+mongod --dbpath ~/mongo-data
+
+brew tap mongodb/brew
+brew install mongodb-community
+
+
+brew list mongodb-community
+
+brew tap mongodb/brew
+brew install mongodb-database-tools
+
+
+echo $PATH
+
+find /opt/homebrew -name "mongo"
+
+find /usr/local -name "mongo"
+
+brew list mongodb-database-tools
+
+brew reinstall mongodb-community
+
+brew install mongosh
+
+mongosh --version
+
+mongosh
+
+use test
+
+db.testCollection.insert({name: "test"})
+db.testCollection.find()
+
+db.testCollection.deleteMany({ name: "test" })
+
+検索結果のログを見る時
+db.searchresults.find()

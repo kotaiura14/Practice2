@@ -4,23 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Page</title>
+    <link rel="stylesheet" href="quizPage.css">
 </head>
 <body>
     <h1>クイズページ</h1>
     <form id="quizForm" action="/scorePage" method="POST">
         <!-- クイズの表示部分 -->
         <% for (let i = 0; i < quizzes.length; i++) { %>
-            <h3>Question <%= i + 1 %>:</h3>
-            <p><%= quizzes[i].question %> の捕獲レベルはいくつ？</p>
-            <% for (let j = 0; j < quizzes[i].choices.length; j++) { %>
-                <label>
-                    <!-- 各質問のラジオボタングループに同じ名前属性を設定 -->
-                    <input type="radio" name="answers[<%= i %>]" value="<%= quizzes[i].choices[j] %>">
-                    <%= quizzes[i].choices[j] %>
-                </label><br>
-            <% } %>
+            <div class="question" id="question-<%= i %>">
+                <h3>Question <%= i + 1 %>:</h3>
+                <p><%= quizzes[i].question %> の捕獲レベルはいくつ？</p>
+                <% for (let j = 0; j < quizzes[i].choices.length; j++) { %>
+                    <label>
+                        <!-- 各質問のラジオボタングループに同じ名前属性を設定 -->
+                        <input type="radio" name="answers[<%= i %>]" value="<%= quizzes[i].choices[j] %>">
+                        <%= quizzes[i].choices[j] %>
+                    </label><br>
+                <% } %>
+            </div>
+            <input type="hidden" name="quizzes[<%= i %>][correctLevel]" value="<%= quizzes[i].correctLevel %>">
         <% } %>
         <button type="submit">回答する</button>
     </form>    
 </body>
-</html>    
+</html>
