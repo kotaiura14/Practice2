@@ -3,6 +3,7 @@ const router = express.Router();
 const morgan = require('morgan')
 const { searchMonster } = require('../controllers/searchController');
 const SearchResult = require('../model/user');
+const { getHotWords } = require('../controllers/hotMongo');
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
@@ -130,6 +131,17 @@ router.delete('/:id', (req, res, next) => {
     }
 });
 
+//ホットワード機能
 
+router.get('/hotwords', async (req, res, next) => {
+    try {
+        const hotWords = await getHotWords();
+        console.log('HotWords:', hotWords); // ログを追加してデバッグ
+        res.json(hotWords);
+    } catch (error) {
+        console.error('Error fetching hot words:', error); // エラーをログに出力
+        next(error);
+    }
+});
 
 module.exports = router;

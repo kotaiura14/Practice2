@@ -1,16 +1,14 @@
 const express = require('express');
 const path = require('path');
 const kuromoji = require('kuromoji');
-const methodOverride = require('method-override')
+const methodOverride = require('method-override');
 const mongoose = require('mongoose');
+const winston = require('winston');
 const app = express();
-const winston =  require('winston');
-const SearchResult = require('./model/user');
+const { getHotWords } = require('./controllers/hotMongo');
+const { startHotWordsUpdateInterval } = require('./controllers/hotwordsUpdater');
 
 const PORT = 3000;
-
-// モジュールのインポート
-const monsterDict = require('./dict/monsterDict');
 
 // Middleware setup
 app.use(express.urlencoded({ extended: true }));
@@ -18,9 +16,9 @@ app.use(express.json());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'text')));
 
-// View engine setup
 app.set('views', path.join(__dirname, 'text'));
 app.set('view engine', 'ejs');
+
 
 // Kuromoji setup
 kuromoji.builder({ dicPath: 'text/dict' }).build((err, tokenizer) => {
@@ -32,8 +30,14 @@ kuromoji.builder({ dicPath: 'text/dict' }).build((err, tokenizer) => {
 });
 
 // Routes
-app.get('/', (req, res) => {
-    res.render('index', { error: null, difficulty: '', questionCount: '' });
+app.get('/', async (req, res) => {
+    try {
+        const hotWords = await getHotWords();
+        res.render('index', { hotWords: hotWords });
+    } catch (error) {
+        console.error('Error fetching hot words:', error);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 app.use('/search', require('./routes/search'));
@@ -43,13 +47,13 @@ app.use('/quizPage', require('./routes/quizPage'));
 app.use('/scorePage', require('./routes/quizScore'));
 
 // Global variables
-app.locals.monsterDict = monsterDict;
+app.locals.monsterDict = require('./dict/monsterDict');
 
 //MongoDBに接続
 mongoose.connect('mongodb://localhost:27017/mydatabase')
-  .then(() => console.log('MongoDB Connected'))
+  .then(() => console.log('MongoDB Connected'));
 
-  // ログの設定
+// ログの設定
 const logger = winston.createLogger({
     transports: [
         new winston.transports.Console(),
@@ -67,17 +71,9 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something broke!');
 });
 
-app.post('/users', async (req, res) => {
-    const {name, age} = req.body;
-    try {
-        const user = await userController.createUser(name.age);
-        res.json(user);
-    } catch(error) {
-        res.status(500).json({error: error.message});
-    }
-});
-
 // Server setup
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+startHotWordsUpdateInterval(); // ホットワードの更新処理を開始

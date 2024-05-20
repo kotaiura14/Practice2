@@ -8,7 +8,14 @@
 </head>
 <body>
 
-    <h1>トリコ！！投稿</h1>
+    <h2>今熱いぞ小松！！</h2>
+    <ul id="hotwords-list">
+        <% hotWords.forEach(word => { %>
+            <li><%= word._id %></li>
+        <% }); %>
+    </ul>    
+
+    <h2>トリコ！！投稿</h2>
     <form action="/search" method="post">
         <label for="query">モンスター投稿</label>
         <!-- 入力スペース -->
