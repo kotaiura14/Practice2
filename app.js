@@ -5,8 +5,8 @@ const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const winston = require('winston');
 const app = express();
-const { getHotWords } = require('./controllers/hotMongo');
-const { startHotWordsUpdateInterval } = require('./controllers/hotwordsUpdater');
+const { getHotWords } = require('./controllers/hotword/hotMongo');
+const { startHotWordsUpdateInterval } = require('./controllers/hotword/hotwordsUpdater');
 
 const PORT = 3000;
 

@@ -3,7 +3,7 @@ const router = express.Router();
 const morgan = require('morgan')
 const { searchMonster } = require('../controllers/searchController');
 const SearchResult = require('../model/user');
-const { getHotWords } = require('../controllers/hotMongo');
+const { getHotWords } = require('../controllers/hotword/hotMongo');
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));

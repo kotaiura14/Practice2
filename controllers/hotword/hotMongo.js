@@ -1,4 +1,4 @@
-const SearchResult = require('../model/user');
+const SearchResult = require('../../model/user');
 
 async function getHotWords() {
     const results = await SearchResult.aggregate([
