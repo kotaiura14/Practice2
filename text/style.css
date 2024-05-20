@@ -78,3 +78,15 @@ footer {
     text-align: center; 
     font-size: 14px; 
 }
+
+#hotwords-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#hotwords-list li {
+    background-color: #f4f4f4;
+    margin-bottom: 5px;
+    padding: 10px;
+    border-radius: 5px;
+}
